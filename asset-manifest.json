@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/project-delagram/static/css/main.a617e044.chunk.css",
-    "main.js": "/project-delagram/static/js/main.03f39984.chunk.js",
-    "main.js.map": "/project-delagram/static/js/main.03f39984.chunk.js.map",
+    "main.js": "/project-delagram/static/js/main.b2835da1.chunk.js",
+    "main.js.map": "/project-delagram/static/js/main.b2835da1.chunk.js.map",
     "runtime-main.js": "/project-delagram/static/js/runtime-main.479b3763.js",
     "runtime-main.js.map": "/project-delagram/static/js/runtime-main.479b3763.js.map",
-    "static/js/2.4c33983b.chunk.js": "/project-delagram/static/js/2.4c33983b.chunk.js",
-    "static/js/2.4c33983b.chunk.js.map": "/project-delagram/static/js/2.4c33983b.chunk.js.map",
+    "static/js/2.27ad0c86.chunk.js": "/project-delagram/static/js/2.27ad0c86.chunk.js",
+    "static/js/2.27ad0c86.chunk.js.map": "/project-delagram/static/js/2.27ad0c86.chunk.js.map",
     "static/js/3.606512ae.chunk.js": "/project-delagram/static/js/3.606512ae.chunk.js",
     "static/js/3.606512ae.chunk.js.map": "/project-delagram/static/js/3.606512ae.chunk.js.map",
     "index.html": "/project-delagram/index.html",
     "static/css/main.a617e044.chunk.css.map": "/project-delagram/static/css/main.a617e044.chunk.css.map",
-    "static/js/2.4c33983b.chunk.js.LICENSE.txt": "/project-delagram/static/js/2.4c33983b.chunk.js.LICENSE.txt",
+    "static/js/2.27ad0c86.chunk.js.LICENSE.txt": "/project-delagram/static/js/2.27ad0c86.chunk.js.LICENSE.txt",
     "static/media/logo.3ebe1530.png": "/project-delagram/static/media/logo.3ebe1530.png",
     "static/media/memDefault.9dcb712c.png": "/project-delagram/static/media/memDefault.9dcb712c.png"
   },
   "entrypoints": [
     "static/js/runtime-main.479b3763.js",
-    "static/js/2.4c33983b.chunk.js",
+    "static/js/2.27ad0c86.chunk.js",
     "static/css/main.a617e044.chunk.css",
-    "static/js/main.03f39984.chunk.js"
+    "static/js/main.b2835da1.chunk.js"
   ]
 }
