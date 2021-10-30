@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Components/Dashboard/Dashboard.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Delagram UI</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="AuthProvider.html">AuthProvider</a></li><li><a href="Dashboard.html">Dashboard</a></li><li><a href="Feed.html">Feed</a></li><li><a href="Gossip.html">Gossip</a></li><li><a href="Loader.html">Loader</a></li><li><a href="Login.html">Login</a></li><li><a href="MemoryCard.html">MemoryCard</a></li><li><a href="MemoryUpload.html">MemoryUpload</a></li><li><a href="Profile.html">Profile</a></li><li><a href="ProfileCard.html">ProfileCard</a></li><li><a href="Search.html">Search</a></li><li><a href="SignUp.html">SignUp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Components/Dashboard/Dashboard.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import AuthContext from '../AuthContext';
+import React, { Component } from 'react'
+import {
+  Switch,
+  Route,
+  NavLink,
+  Redirect
+} from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+import MemoryUpload from './MemoryUpload/MemoryUpload';
+import Profile from './Profile/Profile';
+import Search from './Search/Search';
+import Feed from './Feed/Feed';
+import Gossip from './Gossip/Gossip';
+
+/**
+ * Dashboard component provides routes to user related components such as Gossip, Search, Feed etc.
+ */
+export class Dashboard extends Component {
+  static contextType = AuthContext;
+  state = {
+    profile: {
+      username: "fetching",
+      name: "fetching",
+      email: "fetching",
+      jwt: "fetching",
+    },
+    loggedIn: true
+  }
+
+  constructor(props) {
+    super()
+  }
+
+  /**
+   * As soon as this component is loaded. This code checks whether the user is logged in or not.
+   * @method
+   */
+  componentDidMount() {
+    const {initUser} = this.context;
+    initUser(
+      () => { // on success
+        const {profile} = this.context;
+        this.setState ({
+          profile
+        });
+      }, 
+      () => { // on failure
+        this.setState({loggedIn: false});
+      });
+  }
+
+  /**
+   * Simply calls the signOut function from Firebase SDK
+   * @method
+   */
+  signOutUser = () => {
+    const auth = getAuth();
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      console.log(error);
+      });
+  }
+
+  render() {
+    if(!this.state.loggedIn)
+      return &lt;Redirect to="/" />;
+    
+    return (
+      &lt;>
+      &lt;div className="animate__animated animate__fadeIn">
+        &lt;ul className="theNav">
+          &lt;NavLink activeClassName="activeMenu" to="/dashboard" exact>
+            &lt;li title="Me!">&lt;span>&lt;ion-icon name="person-outline">&lt;/ion-icon>&lt;/span>&lt;/li>
+          &lt;/NavLink>
+          &lt;NavLink activeClassName="activeMenu" to="/dashboard/feed" exact>
+            &lt;li title="Feed">&lt;span>&lt;ion-icon name="albums-outline">&lt;/ion-icon>&lt;/span>&lt;/li>
+          &lt;/NavLink>
+          &lt;NavLink activeClassName="activeMenu" to="/dashboard/gossip" exact>
+            &lt;li title="Gossip">&lt;span>&lt;ion-icon name="chatbubbles-outline">&lt;/ion-icon>&lt;/span>&lt;/li>
+          &lt;/NavLink>
+          &lt;NavLink activeClassName="activeMenu" to="/dashboard/memoryupload" exact>
+            &lt;li title="Memory Upload">&lt;span>&lt;ion-icon name="cloud-upload-outline">&lt;/ion-icon>&lt;/span>&lt;/li>
+          &lt;/NavLink>
+          &lt;NavLink activeClassName="activeMenu" to="/dashboard/search" exact>
+            &lt;li title="Add friend">&lt;span>&lt;ion-icon name="person-add-outline">&lt;/ion-icon>&lt;/span>&lt;/li>
+          &lt;/NavLink>
+        &lt;/ul>
+      &lt;/div>
+      &lt;div>
+        &lt;button 
+          onClick={this.signOutUser}
+          className="btn btn-red sign-out-btn animate__animated animate__fadeInRight"
+          style={{
+              paddingLeft:"15px",
+              paddingRight:"13px",
+              paddingBottom:"6px",
+            fontSize:"22px",
+          }}
+          title="Log Out"
+        >
+          &lt;ion-icon name="log-out-outline">&lt;/ion-icon>&lt;/button>
+      &lt;/div>
+      &lt;div className="main-content">
+        &lt;Switch>
+          &lt;Route exact path="/dashboard" component={Profile} />
+          &lt;Route exact path="/dashboard/memoryupload" component={MemoryUpload}/>
+          &lt;Route exact path="/dashboard/feed" component={Feed}/>
+          &lt;Route exact path="/dashboard/search" component={Search}/>
+          &lt;Route exact path="/dashboard/gossip" component={Gossip}/>
+        &lt;/Switch>
+      &lt;/div>
+    &lt;/>
+    )
+  }
+}
+
+export default Dashboard</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

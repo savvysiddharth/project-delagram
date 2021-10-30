@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Components/Dashboard/Cards/MemoryCard.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Delagram UI</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="AuthProvider.html">AuthProvider</a></li><li><a href="Dashboard.html">Dashboard</a></li><li><a href="Feed.html">Feed</a></li><li><a href="Gossip.html">Gossip</a></li><li><a href="Loader.html">Loader</a></li><li><a href="Login.html">Login</a></li><li><a href="MemoryCard.html">MemoryCard</a></li><li><a href="MemoryUpload.html">MemoryUpload</a></li><li><a href="Profile.html">Profile</a></li><li><a href="ProfileCard.html">ProfileCard</a></li><li><a href="Search.html">Search</a></li><li><a href="SignUp.html">SignUp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Components/Dashboard/Cards/MemoryCard.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
+import AuthContext from '../../AuthContext';
+
+/**
+ * MemoryCard component creats a card view of the memories created or shared by the user. This component is repeatedly used in Profile and Feed component.
+ */
+export class MemoryCard extends Component {
+  static contextType = AuthContext;
+
+  state = {
+    liked: false,
+    stars: [], // stars fetched from database
+    comment: "", // refers to current user's comment box (input box)
+    comments: [] // comments fetched from database
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
+  /**
+   * As soon as component is loaded, comment, stars data are updated immediately.
+   */
+  componentDidMount() {
+    this.setState({stars: this.props.stars, comments: this.props.comments});
+    // console.log(this.props.stars);
+    if(this.props.stars.includes(this.context.profile.username)) {
+      this.setState({liked: true});
+    }
+  }
+
+  /**
+   * Adds star for the memory. It immediately updates UI but stars gets updated in db in background asynchronously.
+   * @method
+   */
+  doReact = () => {
+    const {username, jwt} = this.context.profile;
+
+    const reactingUserId = username;
+    const reactedUserId = this.props.username;
+
+    const url = "http://localhost:8080/view-api/react-on-memory"
+    const request = {
+      method: "POST",
+      headers: {'Content-Type':'application/json', 'authorization': jwt},
+      body: JSON.stringify({
+        mem_id: this.props.id,
+        curr_user_id: reactingUserId,
+        react_user_id: reactedUserId,
+      })
+    }
+    fetch(url, request)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      const newStars = this.state.stars;
+      newStars.push(username);
+      this.setState({liked: true, stars: newStars});
+      this.context.initUser();
+    })
+    .catch(error => {
+      console.log(error);
+      const newStars = this.state.stars;
+      newStars.push(username);
+      this.setState({liked: true, stars: newStars});
+      this.context.initUser();
+    });
+  }
+
+  /**
+   * Executes at each keystroke of user for any input text field in the component. As soon as it receives any keystroke from user, this method updates the state of the component accordingly.
+   * @method
+   * @param {Object} event Event object
+   */
+  textInputHandler = (event) => {
+    const {name, value} = event.target;
+    this.setState({[name]:value});
+  }
+
+  /**
+   * Adds comment for the memory. It immediately updates comment in UI but stars gets updated in db in background asynchronously.
+   * @method
+   * @param {Object} event Event object
+   */
+  doComment = (event) => {
+    event.preventDefault();
+    const {comment} = this.state;
+    const {username, jwt} = this.context.profile;
+    
+    const commentingUserId = username;
+    const commentedUserId = this.props.username;
+
+    const url = "http://localhost:8080/view-api/comment-on-memory"
+    const request = {
+      method: "POST",
+      headers: {'Content-Type':'application/json', 'authorization': jwt},
+      body: JSON.stringify({
+        mem_id: this.props.id,
+        curr_user_id: commentingUserId,
+        react_user_id: commentedUserId,
+        comment_text: comment
+      })
+    }
+    fetch(url, request)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.log(error);
+      this.context.initUser();
+    });
+    const newComments = this.state.comments;
+    const newComment = {
+      commentText : comment,
+      commentId : new Date(),
+      commentorId: username,
+    }
+    newComments.push(newComment);
+    this.setState({comments: newComments, comment: ""});
+  }
+
+  /**
+   * Prompts user to add reason for report, and sends the details to backend
+   * @method
+   */
+  doReport = () => {
+    let reason = prompt("Write your report details:"); 
+    console.log(reason);
+    const {username, jwt} = this.context.profile;
+    const url = "http://localhost:8080/view-api/report-memory"
+    const request = {
+      method: "POST",
+      headers: {'Content-Type':'application/json', 'authorization': jwt},
+      body: JSON.stringify({
+        mem_id: this.props.id,
+        reason: reason,
+        reported_by: username,
+        user_id: this.props.username,
+      })
+    }
+    fetch(url, request)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+
+  /**
+   * Renders the card view of memory using props and state of the component.
+   */
+  render() {
+    const {image, caption, id, time, name} = this.props;
+    const {liked, stars, comment, comments} = this.state;
+    return (
+      &lt;>
+      {
+        stars ?
+        &lt;div className="image-card">
+          &lt;div className="card-head">
+            &lt;span className="head-left"> {caption} &lt;/span>
+            &lt;span className="head-right"> {time.slice(0,11)} &lt;/span>
+          &lt;/div>
+          &lt;div className="card-img">
+            &lt;img src={image} alt="" />
+          &lt;/div>
+          &lt;div className="card-menu-bar">
+            &lt;span className="mem-author">By {name} &lt;/span>
+            {
+              liked?
+              &lt;button disabled className="btn-small btn-liked">+1&lt;/button> 
+              :
+              &lt;button onClick={this.doReact} className="btn-small btn-notliked">+1&lt;/button> 
+            } &amp;nbsp;
+            &lt;span>{stars.length} Stars&lt;/span>
+            &lt;span title="Report" onClick={this.doReport} className="report-link">&lt;ion-icon name="alert-circle-outline">&lt;/ion-icon>&lt;/span>
+            &lt;br/>
+            {
+              comments.length === 0 ?
+              &lt;p key="no-comments">&lt;/p>
+              :
+              comments.map((comment) => {
+                return &lt;div key={comment.commentId} className="comment-block animate__animated animate__fadeInUp">
+                  &lt;hr className="hr-thin" />
+                  &lt;span className="comment-text">{comment.commentText} &lt;span className="comment-author"> &amp;#8212; {comment.commentorId}&lt;/span> &lt;/span>
+                &lt;/div>
+              })
+            }
+            &lt;form onSubmit={this.doComment}>
+              &lt;input 
+                maxLength="40" 
+                autoComplete="off" 
+                value={comment} 
+                onChange={this.textInputHandler} 
+                name="comment" 
+                placeholder="Say something..." 
+                className="comment-input-theme" 
+                type="text"/>
+            &lt;/form>
+          &lt;/div>
+        &lt;/div>
+        :
+          "umm..idk"
+      }
+      &lt;/>
+    )
+  }
+}
+
+export default MemoryCard
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

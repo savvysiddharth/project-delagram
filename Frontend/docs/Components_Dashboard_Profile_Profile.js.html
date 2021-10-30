@@ -1,0 +1,202 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Components/Dashboard/Profile/Profile.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Delagram UI</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="AuthProvider.html">AuthProvider</a></li><li><a href="Dashboard.html">Dashboard</a></li><li><a href="Feed.html">Feed</a></li><li><a href="Gossip.html">Gossip</a></li><li><a href="Loader.html">Loader</a></li><li><a href="Login.html">Login</a></li><li><a href="MemoryCard.html">MemoryCard</a></li><li><a href="MemoryUpload.html">MemoryUpload</a></li><li><a href="Profile.html">Profile</a></li><li><a href="ProfileCard.html">ProfileCard</a></li><li><a href="Search.html">Search</a></li><li><a href="SignUp.html">SignUp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Components/Dashboard/Profile/Profile.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
+import AuthContext from '../../AuthContext';
+import Loader from '../../Loader/Loader'
+import MemoryCard from '../Cards/MemoryCard';
+import ProfileCard from '../Cards/ProfileCard';
+
+/**
+ * Profile component shows a profile card of currently logged in users, and lists the memories of their memories in interactive card format.
+ */
+export class Profile extends Component {
+  static contextType = AuthContext;
+  state = {
+    profile: {}, // will store the profile information in this state
+    loggedIn: true // if loggedOut user gets redirected to Login Page
+  }
+
+  /**
+   * As the component is loaded, the user data is initialized using the functions from AuthContext, and state is updated accordingly.
+   */
+  componentDidMount() {
+    const {initUser, userLoggedIn} = this.context;
+    if(userLoggedIn) {
+      const {profile} = this.context;
+      this.setState ({
+        profile,
+        loggedIn: true,
+      });
+      return;
+    }
+    initUser(() => { // on success
+      const {profile} = this.context;
+      this.setState ({
+        profile,
+        loggedIn: true,
+      });
+    }, () => { // on failure
+      this.setState({loggedIn: false});
+    });
+  }
+
+  /**
+   * Renders the input form based on current state of the component.
+   */
+  render() {
+    const {memories, name, username, email, profilePic, bio} = this.context.profile;
+    return (
+      &lt;>
+      {memories &amp;&amp; profilePic ? 
+        &lt;div className="">
+          &lt;div className="profile-center animate__animated animate__fadeInDown">
+            &lt;ProfileCard name={name} username={username} email={email} profilePic={profilePic} bio={bio}/>
+          &lt;/div>
+          &lt;div className="animate__animated animate__fadeInUp">
+            {
+              memories.length === 0 ? &lt;center>No memories have been uploaded yet.&lt;/center> :
+              memories.map(item => {
+                return &lt;MemoryCard 
+                        key={item.memId}
+                        image={item.imageURI} 
+                        caption={item.memCaption}
+                        id={item.memId}
+                        stars={item.listOfStars}
+                        time={item.timeStamp}
+                        comments={item.comments}
+                        name={name}
+                        username={username}
+                      />
+              })
+            }
+          &lt;/div>
+        &lt;/div>
+        :
+        &lt;div className="loader-center">
+          &lt;Loader /> Loading..
+        &lt;/div>
+      }
+      &lt;/>
+    )
+  }
+}
+
+export default Profile
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

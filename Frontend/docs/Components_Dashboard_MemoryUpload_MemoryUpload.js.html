@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Components/Dashboard/MemoryUpload/MemoryUpload.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Delagram UI</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="App.html">App</a></li><li><a href="AuthProvider.html">AuthProvider</a></li><li><a href="Dashboard.html">Dashboard</a></li><li><a href="Feed.html">Feed</a></li><li><a href="Gossip.html">Gossip</a></li><li><a href="Loader.html">Loader</a></li><li><a href="Login.html">Login</a></li><li><a href="MemoryCard.html">MemoryCard</a></li><li><a href="MemoryUpload.html">MemoryUpload</a></li><li><a href="Profile.html">Profile</a></li><li><a href="ProfileCard.html">ProfileCard</a></li><li><a href="Search.html">Search</a></li><li><a href="SignUp.html">SignUp</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Components/Dashboard/MemoryUpload/MemoryUpload.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from 'react'
+import AuthContext from '../../AuthContext'
+import memDefault from './memDefault.png'
+import { clarendon, 
+        gingham,
+        moon,
+        lark,
+        reyes,
+        juno,
+        slumber,
+        crema,
+        ludwig,
+        aden,
+        perpetua,
+        sierra,
+        applyPresetOnImage } from 'instagram-filters';
+import Loader from '../../Loader/Loader';
+
+/**
+ * MemoryUpload component, allows user to upload image and apply filters on their image then create a new memory.
+ */
+export class MemoryUpload extends Component {
+  static contextType = AuthContext;
+
+  state = {
+    imageToUpload: memDefault, // base64 string
+    caption: "",
+    imageAdded: false,
+    originalImage: null,
+    filterProcessing: false,
+  }
+
+  /**
+   * Picks up the file selected by user and converts it to base64 image and updates the state of component accordingly.
+   * @method
+   * @param {Object} event Event object 
+   */
+  fileSelectedHandler = (event) => {
+    const reader = new FileReader();
+    let uploadedFile = event.target.files[0]
+    if(!uploadedFile) return;  // in case user cancels the upload
+    
+    this.setState({imageHTML: uploadedFile});
+    
+    reader.readAsDataURL(uploadedFile);
+    reader.onload = () => {
+      if(reader.readyState === 2) {
+        this.setState({imageToUpload: reader.result, imageAdded: true, originalImage: reader.result});
+      }
+    }
+  }
+
+  /**
+   * Once the user is happy with their image, caption and filters this function fires up as soon as they click "Create a memory". Further, the memory data is sent to the backend.
+   * @method
+   */
+  uploadHandler = () => {
+    if(!this.state.imageAdded) {
+      alert("No image uploaded here...");
+      return;
+    }
+    this.setState({uploading: true});
+    const {username, jwt} = this.context.profile;
+    const request = {
+      method: "POST",
+      headers: {'Content-Type':'application/json', 'authorization': jwt},
+      body: JSON.stringify({
+        memory_img: this.state.imageToUpload,
+        mem_caption: this.state.caption,
+        user_id: username
+      })
+    }
+
+    // console.log("Request is:");
+    // console.log(request);
+    let url = "http://localhost:8080/upload-api/upload-memory";
+    fetch(url, request)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      this.context.initUser();
+      this.setState({
+        uploading: false,
+        imageAdded: false,
+        caption: ""
+      });
+      setTimeout(() => {}, 2000);
+    })
+    .catch(error => {
+      console.log('error occurred: '+error);
+    })
+  }
+
+  /**
+   * This function simply makes a click to actual Input Element.
+   * @method
+   */
+  onImageContainerClick = () => {
+    document.querySelector("#imgUploaderInput").click()
+  }
+
+  /**
+   * Executes at each keystroke of user for any input text field in the component. As soon as it receives any keystroke from user, this method updates the state of the component accordingly.
+   * @method
+   * @param {Object} event Event object
+   */
+  textInputHandler = (event) => {
+    const {name, value} = event.target;
+    this.setState({[name]:value});
+  }
+
+  /**
+   * This function simply converts the Blob data given as input to a base64 string.
+   * @method
+   * @param {Object} blob 
+   * @returns {Promise} Promise on the converted base64
+   */
+  blobToBase64 = (blob) => {
+    return new Promise((resolve, _) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  /**
+   * This function applies filter to the uploaded image, and updates the state of the component accordingly.
+   * @method
+   * @param {event} event Event object
+   */
+  filterHandler = (event) => {
+    console.log(event.target.value);
+    const selectedFilter = event.target.value;
+    if(selectedFilter === "0") {
+      this.setState({imageToUpload: this.state.originalImage});
+      return;
+    }
+    if(!this.state.imageAdded) {
+      event.target.value = "0";
+      alert("No image uploaded here...");
+      return;
+    }
+    this.setState({filterProcessing: true});
+
+    const filterFuncs = {
+      clarendon,
+      gingham,
+      moon,
+      lark,
+      reyes,
+      juno,
+      slumber,
+      crema,
+      ludwig,
+      aden,
+      perpetua,
+      sierra,
+    };
+
+    const image = document.querySelector('#uploadImgOriginal');
+    const blob = applyPresetOnImage(image, filterFuncs[selectedFilter]());
+    // console.log(blob);
+    blob.then(data => {
+      // console.log(data);
+      this.blobToBase64(data)
+      .then((base64str) => {
+        // console.log(base64str);
+        this.setState({imageToUpload: base64str, filterProcessing: false});
+      });
+    });
+  }
+
+  /**
+   * Renders the input form based on current state of the component.
+   */
+  render() {
+    const {imageToUpload, caption, originalImage, filterProcessing} = this.state;
+    const {name} = this.context.profile;
+    const today = new Date();
+    let tdate = today.getDate();
+    let tmonth = today.toLocaleString('en-US', {month: 'short'});
+    let tyear = today.getFullYear();
+    let time = tdate + '-' + tmonth + '-' + tyear;
+    return (
+      &lt;div>
+        &lt;div className="animate__animated animate__fadeInDown">
+          &lt;h1>Upload Memory&lt;/h1>
+        &lt;/div>
+        &lt;br />
+        
+        &lt;div className="image-card animate__animated animate__fadeInUp">
+          &lt;div className="card-head">
+            &lt;span className="head-left animate__animated animate__tada animate__delay-1s">
+              &lt;input autoComplete="off" onChange={this.textInputHandler} name="caption" value={caption} maxLength="50" placeholder="type your caption here.." className="caption-input" type="text" />
+            &lt;/span>
+            &lt;span className="head-right"> {time.slice(0,11)}&lt;/span>
+          &lt;/div>
+          &lt;div className="card-img mem-upload-ing">
+            &lt;img onClick={this.onImageContainerClick} src={imageToUpload} alt="" />
+            &lt;img id="uploadImgOriginal" src={originalImage} style={{display:"none"}} alt="" />
+          &lt;/div>
+          &lt;div className="card-menu-bar">
+            &lt;span className="mem-author" style={{paddingTop:"0px"}}>By {name}&lt;/span>
+            &lt;br/>
+          &lt;/div>
+        &lt;/div>
+
+        &lt;input id="imgUploaderInput" onChange={this.fileSelectedHandler} type="file" accept="image/*"/>
+        {/* &lt;img src={this.state.imageToUpload} width="100px" height="auto" alt="" /> */}
+        
+        {this.state.uploading ? 
+        &lt;button disabled className="btn btn-cyan">&lt;Loader />Uploading..&lt;/button>
+        :
+        &lt;button className="btn btn-cyan animate__animated animate__fadeInUp animate__delay-1s" onClick={this.uploadHandler}>Create Memory&lt;/button> 
+        }&amp;nbsp;
+        
+        {/* &lt;br />&lt;br /> */}
+        &lt;div className="filter-select animate__animated animate__fadeInUp animate__delay-1s" onChange={this.filterHandler}>
+          &lt;select>
+            &lt;option value="0">No Magic&lt;/option>
+            &lt;option value="clarendon">Clarendon&lt;/option>
+            &lt;option value="gingham">Gingham&lt;/option>
+            &lt;option value="moon">Moon&lt;/option>
+            &lt;option value="lark">Lark&lt;/option>
+            &lt;option value="reyes">Reyes&lt;/option>
+            &lt;option value="juno">Juno&lt;/option>
+            &lt;option value="slumber">Slumber&lt;/option>
+            &lt;option value="crema">Crema&lt;/option>
+            &lt;option value="ludwig">Ludwig&lt;/option>
+            &lt;option value="aden">Aden&lt;/option>
+            &lt;option value="perpetua">Perpetua&lt;/option>
+            &lt;option value="sierra">Sierra&lt;/option>
+          &lt;/select>
+          &lt;br/>
+        &lt;/div>
+        {filterProcessing ?
+        &lt;div className="filter-loader animate__animated animate__fadeInDown">
+          &lt;Loader/> Processing..
+        &lt;/div>
+        :
+        ""
+        }
+        &lt;br />&lt;br />&lt;br />
+      &lt;/div>
+    )
+  }
+}
+
+export default MemoryUpload
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
