@@ -27,7 +27,7 @@ export class Gossip extends Component {
         select_elem.appendChild(option_elem); // Append option_elem to select_elem
       });
     }
-    this.interval = setInterval(this.fetchMessages, 1000);
+    this.interval = setInterval(this.fetchMessages, 100);
   }
 
   /**
