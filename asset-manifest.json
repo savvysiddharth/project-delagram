@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/project-delagram/static/css/main.a617e044.chunk.css",
-    "main.js": "/project-delagram/static/js/main.b2835da1.chunk.js",
-    "main.js.map": "/project-delagram/static/js/main.b2835da1.chunk.js.map",
+    "main.js": "/project-delagram/static/js/main.063edeca.chunk.js",
+    "main.js.map": "/project-delagram/static/js/main.063edeca.chunk.js.map",
     "runtime-main.js": "/project-delagram/static/js/runtime-main.479b3763.js",
     "runtime-main.js.map": "/project-delagram/static/js/runtime-main.479b3763.js.map",
     "static/js/2.27ad0c86.chunk.js": "/project-delagram/static/js/2.27ad0c86.chunk.js",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.479b3763.js",
     "static/js/2.27ad0c86.chunk.js",
     "static/css/main.a617e044.chunk.css",
-    "static/js/main.b2835da1.chunk.js"
+    "static/js/main.063edeca.chunk.js"
   ]
 }
