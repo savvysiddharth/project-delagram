@@ -4,6 +4,7 @@ import { Dashboard } from './Components/Dashboard/Dashboard';
 import { SignUp } from './Components/SignUp/SignUp';
 import React, { Component } from 'react'
 import {
+  HashRouter,
   BrowserRouter as Router,
   Switch,
   Route
@@ -27,7 +28,7 @@ export class App extends Component {
   render() {
     return (
       <AuthProvider>
-        <Router>
+        <HashRouter basename="/">
           <Switch>
             <Route exact path="/">
               <Login updateUser={this.updateCurrentUser} />
@@ -52,7 +53,7 @@ export class App extends Component {
               </div>
             </Route>
           </Switch>
-        </Router>
+        </HashRouter>
       </AuthProvider>
     )
   }
