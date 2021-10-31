@@ -28,7 +28,7 @@ export class App extends Component {
   render() {
     return (
       <AuthProvider>
-        <HashRouter basename="/">
+        <Router basename="/project-delagram">
           <Switch>
             <Route exact path="/">
               <Login updateUser={this.updateCurrentUser} />
@@ -53,7 +53,7 @@ export class App extends Component {
               </div>
             </Route>
           </Switch>
-        </HashRouter>
+        </Router>
       </AuthProvider>
     )
   }
