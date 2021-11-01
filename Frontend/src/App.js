@@ -28,7 +28,7 @@ export class App extends Component {
   render() {
     return (
       <AuthProvider>
-        <Router basename="/project-delagram">
+        <Router basename="/project-delagram/Frontend/build">
           <Switch>
             <Route exact path="/">
               <Login updateUser={this.updateCurrentUser} />
