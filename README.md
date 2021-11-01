@@ -137,9 +137,13 @@ Along with this distribution, the members have regularly engaged in sprint calls
 
 # Path to documentation
 
-### Backend -
+### Backend : https://savvysiddharth.github.io/project-delagram/Backend/doc/
         
         Backend/doc/index.html
+
+### Frontend : https://savvysiddharth.github.io/project-delagram/Frontend/docs/
+        
+        Frontend/docs/index.html
 
 # Screenshots:
 
