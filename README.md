@@ -26,7 +26,7 @@ We hope you enjoy your visits to our application :)
 <a href="https://github.com/savvysiddharth">Siddharth Maurya</a> | 
 <a href="https://github.com/swaroop-nath">Swaroop Nath</a>
 
-<h3><a href="https://github.com/savvysiddharth/project-delagram">Related Links</a></h3>
+<h3><a href="https://savvysiddharth.github.io/project-delagram/">Related Links</a></h3>
 
 # Demo Videos
 
