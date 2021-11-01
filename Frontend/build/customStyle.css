@@ -1,0 +1,716 @@
+html, body {
+  background-color: rgb(0, 0, 0);
+  color: rgb(226, 226, 226);
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+
+* {
+  font-family: monospace;
+  box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 0;  /* remove scrollbar space */
+  background: transparent;  /* makes scrollbar invisible */
+}
+
+ion-icon {
+  pointer-events: none;
+}
+
+/* ------------------------------- */
+/* -------COMMON------------------ */
+/* ------------------------------- */
+
+/* thin hr line */
+.hr-thin {
+  color: #ddd;
+  background-color: rgb(97, 97, 97);
+  height: 2px;
+  border: none;
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+
+/*common button style*/
+.btn {
+  padding: 10px 40px;
+  border-radius: 40px;
+  border-style: none;
+  background-color: rgb(255, 255, 255);
+  color: rgb(34, 34, 34);
+  font-weight: bold;
+  font-size: 17px;
+  transition: all 0.5s;
+}
+
+/*same as btn but smaller*/
+.btn-small {
+  padding: 8px 15px;
+  border-radius: 40px;
+  border-style: none;
+  background-color: rgb(255, 255, 255);
+  color: rgb(34, 34, 34);
+  font-weight: bold;
+  font-size: 15px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.btn-cyan {
+  background-color: rgb(62, 166, 170);
+  color: white;
+}
+.btn-cyan:hover {
+  background-color: rgb(37, 105, 107);
+}
+.btn-cyan:disabled {
+  background-color: rgb(28, 78, 80);
+}
+
+.btn-yellow {
+  background-color: rgb(201, 151, 58);
+  color: white;
+}
+.btn-yellow:hover {
+  background-color: rgb(145, 109, 43);
+}
+.btn-yellow:disabled {
+  background-color: rgb(145, 109, 43);
+}
+
+.btn-red {
+  background-color: rgb(187, 62, 62);
+  color: white;
+}
+.btn-red:hover {
+  background-color: rgb(116, 46, 46);
+  color: white;
+}
+
+.btn-blue {
+  background-color: rgb(66, 128, 170);
+  color: white;
+}
+.btn-blue:hover {
+  background-color: rgb(35, 78, 107);
+  color: white;
+}
+
+.btn-green {
+  background-color: rgb(81, 161, 78);
+  color: white;
+}
+.btn-green:hover {
+  background-color: rgb(65, 129, 63);
+  color: white;
+}
+
+.btn-green:disabled {
+  background-color: rgb(53, 95, 51);
+  color: white;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn:disabled {
+  cursor: wait;
+}
+
+.input-theme {
+  display: block;
+  border-radius: 100px;
+  width: 350px;
+  padding-left: 20px ;
+  height: 40px;
+  border-style: none;
+  background-color: rgb(46, 46, 46);
+  color: rgb(201, 201, 201);
+  font-size: 18px;
+}
+
+/* Spinning Ring Animation: https://loading.io/css/ */
+.lds-dual-ring {
+  display: inline-block;
+  /* width: 20px;
+  height: 20px; */
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin-top: 2px;
+  margin-right: 9px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  top:5px;
+  left:-15px;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  /* margin: 8px; */
+  border: 8px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* ring anim ends */
+.loader-center {
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+
+/* ------------------------------- */
+/* -------LOGIN COMPONENT--------- */
+/* ------------------------------- */
+
+
+.loginBox {
+  text-align: center;
+  width: 400px;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  /* background-color: red; */
+}
+
+.heroTitle {
+  text-transform: uppercase;
+  letter-spacing: 13px;
+  font-weight: 500;
+}
+
+.heroLogo {
+  width: 90px;
+}
+
+.loginBox input {
+  margin: 20px auto;
+}
+
+/* ------------------------------- */
+/* -------MEMORY UPLOAD --------- */
+/* ------------------------------- */
+
+.caption-input {
+  background-color: rgba(241, 7, 7, 0);
+  border-style: none;
+  width: 240%;
+  color:white;
+}
+
+.mem-upload-ing {
+  cursor: pointer;
+}
+
+#imgUploaderInput {
+  display: none;
+}
+
+.filter-select {
+  display: inline-block;
+}
+
+.filter-select select {
+  padding: 11px 20px;
+  border-radius: 20px;
+}
+
+.filter-loader {
+  /* display: inline-block; */
+  position: fixed;
+  top: 40px;
+  left: 45%;
+  transform: translateY(-50%);
+}
+
+/* ------------------------------- */
+/* -------SIGNUP COMPONENT--------- */
+/* ------------------------------- */
+
+.SignUpBox {
+  /* background-color: rgb(30, 66, 80); */
+  width: fit-content;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.SignUpBox label {
+  margin-left: 10px;
+  margin-bottom: 5px;
+  display: inline-block;
+  color:rgb(187, 187, 187);
+}
+
+.SignUpBox label span {
+  color: rgb(112, 112, 112);
+}
+
+.dp-container {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(58, 58, 58);
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 3px solid rgb(49, 49, 49);
+  transition: all 0.5s;
+}
+
+.dp-container:hover {
+  border: 3px solid white
+}
+
+.dp-preview {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  object-fit: cover;
+}
+
+.dp-input {
+  display: none;
+}
+
+.SignUpBox input {
+  margin-bottom: 20px;
+  width:400px;
+  font-size: 16px;
+}
+
+.SignUpBox textarea {
+  margin-bottom: 20px;
+  height: 70px;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 20px;
+  width:400px;
+  resize: none;
+}
+
+.SignUpBox button {
+  margin-bottom: 30px
+}
+
+.errorMessage-signup {
+  display:block;
+  text-align:center;
+  margin-bottom: 10px;
+  color:rgb(227, 91, 82);
+  font-weight: bold;
+  /* opacity:0; */
+}
+
+
+/* ------------------------------- */
+/* -------DASHBOARD COMPONENT--------- */
+/* ------------------------------- */
+
+.main-content {
+  /* background-image: url(./bg.jpg); */
+  background-position: center;
+  background-size: auto;
+  /* height: 100vh; */
+  width: 700px;
+  margin: 0 auto;
+  /* margin-left: 200px;
+  margin-right: 200px; */
+}
+
+.sign-out-btn {
+  position:fixed;
+  right: 15px;
+  top: 20px;
+}
+
+/* The nav bar */
+.theNav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 60px;
+  background-color: #353535;
+  position: fixed;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  border-radius: 30px;
+}
+
+.theNav li {
+  color: white;
+  display: block;
+  height: 60px;
+  position: relative;
+  transition: all 0.4s;
+  margin-bottom: 10px;
+  /* text-align: center; */
+}
+
+.theNav li:last-child {
+  margin-bottom: 0px;
+}
+
+.theNav li:hover {
+  border-radius: 500px;
+  color:rgb(0, 0, 0);
+  background-color: rgb(173, 173, 173);
+}
+
+.theNav li span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+}
+
+.activeMenu li {
+  border-radius: 500px;
+  color:rgb(236, 236, 236);
+  background-color: rgb(115, 72, 156);
+}
+
+/* ------------------------------- */
+/* -------PROFILE COMPONENT--------- */
+/* ------------------------------- */
+
+/* MEMORY CARD */
+
+.btn-notliked {
+  background-color: rgb(92, 74, 41);
+  color: white;
+}
+.btn-notliked:hover {
+  background-color: rgb(209, 164, 81);
+}
+
+
+.btn-liked:hover {
+  cursor:default;
+}
+.btn-liked:disabled {
+  background-color: rgb(236, 183, 83);
+}
+
+.image-card {
+   margin-bottom: 30px;
+   background-color: rgb(48, 48, 48);
+   border-radius: 20px;
+}
+
+.image-card .card-img img {
+  width: 700px;
+}
+
+.image-card .card-head {
+  width: 700px;
+  background-color: rgb(48, 48, 48);
+  height: 40px;
+  text-align: right;
+  padding-top: 13px;
+  padding-right: 25px;
+  padding-left: 25px;
+  font-weight: bold;
+  border-radius: 20px 20px 0px 0px;
+}
+
+.image-card .card-head .head-left {
+  float: left;
+}
+
+.image-card .card-menu-bar {
+  width: 700px;
+  height: fit-content;
+  background-color: rgb(48, 48, 48);
+  padding: 10px;
+  border-radius: 0px 0px 20px 20px;
+}
+
+.mem-author {
+  padding-top: 10px;
+  float: right;
+}
+
+.comment-input-theme {
+  /* display: block; */
+  border-radius: 100px;
+  width: 100%;
+  padding-left: 20px ;
+  height: 40px;
+  border-style: none;
+  background-color: rgb(66, 66, 66);
+  color: rgb(212, 212, 212);
+  font-size: 16px;
+}
+
+.comment-block {
+  margin-bottom: 20px;
+  margin-top: 10px;
+  display: block;
+}
+
+.comment-text {
+  padding-left: 10px;
+}
+
+.comment-author {
+  color: #747474;
+}
+
+.report-link {
+  color: #797979;
+  font-size: 20px;
+  position: absolute;
+  transform: translate(10px,8px);
+}
+
+.report-link:hover {
+  cursor: pointer;
+  color: rgb(199, 67, 67);
+}
+
+/* PROFILE CARD */
+
+.profile-card {
+  background-color: rgb(36, 36, 36);
+  width: fit-content;
+  height: fit-content;
+  /* text-align: center; */
+  float: none;
+  display: relative;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.profile-center {
+  width: fit-content;
+  height: fit-content;
+  margin: 0 auto;
+}
+
+.dp-container-profile {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(58, 58, 58);
+  /* text-align: center; */
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border: 3px solid rgb(49, 49, 49);
+  transition: all 0.5s;
+  /* position: absolute;
+  left: 0; */
+  /* float: left; */
+}
+
+.dp-image-profile {
+  display: inline;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  object-fit: cover;
+}
+
+.profile-data {
+  display: inline;
+  /* float:right; */
+}
+
+/* ------------------------------- */
+/* -------SEARCH COMPONENT-------- */
+/* ------------------------------- */
+
+.searchBox {
+  width: 700px;
+  position: relative;
+  text-align: center;
+  display: block;
+  position: relative;
+}
+
+.search-fail-msg {
+  margin-top: 100px;
+  font-size: 110%;
+}
+
+.search-input {
+  display: block;
+  border-radius: 100px;
+  width: 100%;
+  padding-left: 20px ;
+  height: 40px;
+  border-style: none;
+  background-color: rgb(46, 46, 46);
+  color: rgb(201, 201, 201);
+  font-size: 18px;
+}
+
+.findButton {
+  display: inline-block;
+  position: absolute;
+  margin: 5px auto;
+  width: fit-content;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.search-result {
+  position: relative;
+  margin-top: 70px;
+}
+
+.add-friend-btn {
+  position: absolute;
+  top: 103%;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+}
+
+/* ------------------------------- */
+/* -------GOSSIP COMPONENT-------- */
+/* ------------------------------- */
+
+.gossip-select {
+  display: block;
+}
+
+.gossip-select select {
+  padding: 11px 20px;
+  border-radius: 20px;
+  width: 100%;
+  border:none;  
+  background-color: rgb(66, 66, 66);
+  color: #ddd;
+}
+
+.chat-box {
+  position: relative;
+  /* background-color: rgb(88, 12, 12); */
+  height: 70vh;
+  width: 100%;
+  margin-top: 40px;
+  display: block;
+  padding: 10px;
+  /* border-radius: 20px;   */
+}
+
+.messages-area {
+  background-color: rgb(46, 46, 46);
+  width: 100%;
+  height: 85%;
+  border-radius: 20px;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 10px;
+  width: 90%;
+  left: 50%;
+  padding: 15px;
+  transform: translateX(-50%);  
+  border-radius: 100px;
+  border-style: none;
+  background-color: rgb(46, 46, 46);
+  color: rgb(201, 201, 201);
+}
+
+.message-text-box {
+  /* background-color: rgb(92, 94, 85); */
+  height: 45px;
+  max-height: 45px;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.message-bubble {
+  width: fit-content;
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  padding: 10px 20px;
+  border-radius: 100px;
+}
+
+.bubble-left {
+  background-color: rgb(30, 92, 76);
+  left:0;
+}
+
+.bubble-right {
+  background-color: rgb(45, 88, 124);
+  right: 0;
+}
