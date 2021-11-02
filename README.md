@@ -1,4 +1,3 @@
-
 # Problem Statement
 
 As part of this project, we present to you `Delagram: A Photo Portal`. This is a web-application where users can upload pictures (we like `memory` - we believe every worth picture has an emotion attached with it), that is specifically designed keeping privacy in mind. With the way the software globalisation world has been moving in the past couple of years, it is quite evident that every country wants software independence - from social media applications to vital and crucial security applications. In this direction, we have taken up the task of creating a social media portal specifically for our fellow-mates at IIT-B.
@@ -6,6 +5,8 @@ As part of this project, we present to you `Delagram: A Photo Portal`. This is a
 Users of this application can form communities among themselves, while we ensure their security in that they don't inadvertantly include an unknown in their `circle`. With all that has been going with the world, this application is meant to provide a much needed social interaction among people that are close through friendship, and yet (sadly) far by distance, while ensuring their privacy.
 
 `If you like privacy and social interaction among your close friends, Delagram is the place to be!!`
+
+<h3><a href="https://savvysiddharth.github.io/project-delagram/">Quick Links</a></h3>
 
 # List of features
 
@@ -20,13 +21,26 @@ The initial build of the web based application provides the following set of coo
 
 We hope you enjoy your visits to our application :)
 
+## Backend Architecture:
+![backend](https://user-images.githubusercontent.com/12862695/139908044-5fe8e939-15f0-4a91-98fd-59aa92c51f73.png)
+
+## Sign Up Mechanism:
+![delagramAuth - signup](https://user-images.githubusercontent.com/12862695/139906571-5c67d4d5-d006-4666-a8da-bad2c4d6f5c7.jpg)
+
+## Login Mechanism:
+![delagramAuth - Login](https://user-images.githubusercontent.com/12862695/139906579-d983e475-1fd8-48f2-a531-f759149eee7f.jpg)
+
+## General API Call:
+![delagramAuth - general](https://user-images.githubusercontent.com/12862695/139906585-abf62c39-b937-4eca-8f17-7fb871a10ef4.jpg)
+
+## Texting Mechanism:
+![delagramAuth - chat](https://user-images.githubusercontent.com/12862695/139906614-16819609-573a-4d04-a6e6-9dc5e0da1892.jpg)
+
 # Contributors
 
 <a href="https://github.com/mayankkakad">Mayank Kakad</a> | 
 <a href="https://github.com/savvysiddharth">Siddharth Maurya</a> | 
 <a href="https://github.com/swaroop-nath">Swaroop Nath</a>
-
-<h3><a href="https://savvysiddharth.github.io/project-delagram/">Related Links</a></h3>
 
 # Demo Videos
 
